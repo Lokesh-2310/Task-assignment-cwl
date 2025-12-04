@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe to {{ course['title'] }} | Mini Course App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_folder/subscribe.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/home" class="nav-logo">
+                <img src="{{url_for('static',filename='images/logo.jpg')}}" alt="Logo" class="logo-image">
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/mycourse" class="nav-link">MyCourses</a></li>
+                <li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- backend variables for JS -->
+    <div id="subscribeData"
+         data-price="{{ course['price'] }}"
+         data-promoapplied="{{ promo_applied }}">
+    </div>
+
+    <div class="container">
+        <h1>Subscribe to {{ course['title'] }}</h1>
+
+        <div class="course-info">
+            <img src="{{ url_for('static', filename=course['image']) }}" class="thumbnail" alt="Course Image">
+            <div class="course-title">{{ course['title'] }}</div>
+            <div class="course-description">{{ course['description'] }}</div>
+        </div>
+
+        <div class="subscription-section">
+
+        {% if already_enrolled %}
+            <div class="price-display enrolled">
+                <i class="fas fa-check-circle"></i> You are enrolled in this course.
+            </div>
+            <a href="{{ url_for('mycourses_page') }}" class="subscribe-btn free-subscribe">
+                <i class="fas fa-arrow-right"></i> Go to My Courses
+            </a>
+
+        {% elif course['price'] == 0 %}
+            <div class="price-display free">FREE</div>
+            <a href="{{ url_for('enroll_course', course_id=course['_id']) }}" class="subscribe-btn free-subscribe">
+                <i class="fas fa-arrow-right"></i> Subscribe Now
+            </a>
+
+        {% else %}
+            <div class="price-display" id="priceDisplay">
+                {% set original_price = course['price'] %}
+                {% set discounted_price = original_price * 0.5 if promo_applied else original_price %}
+                {% if promo_applied %}
+                    <span class="original">₹{{ original_price }}</span>
+                    <span class="discounted">₹{{ discounted_price|round(0) }}</span>
+                    <span class="discount-badge">50% OFF</span>
+                {% else %}
+                    <span class="full-price">₹{{ original_price }}</span>
+                {% endif %}
+            </div>
+
+            <form id="promoForm" method="POST" action="{{ url_for('buy_course', course_id=course['_id']) }}">
+                <input type="hidden" name="promo_code" id="promoCodeHidden" value="">
+
+                <div class="promo-form">
+                    <input type="text" id="promoInput" class="promo-input"
+                           placeholder="Enter promo code (e.g., BFSALE25)" maxlength="20" autocomplete="off">
+
+                    <button type="button" class="apply-btn" onclick="applyPromo()">
+                        <i class="fas fa-tag"></i> Apply
+                    </button>
+                </div>
+
+                <div id="promoMessage" class="promo-message"></div>
+
+                <button type="submit" id="subscribeBtn" class="subscribe-btn" disabled>
+                    <i class="fas fa-credit-card"></i> Subscribe for ₹{{ original_price }}
+                </button>
+            </form>
+        {% endif %}
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js_folder/subscribe.js') }}"></script>
+
+</body>
+</html>

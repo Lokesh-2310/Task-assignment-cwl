@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ course.title }} | Mini Course App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_folder/coursepage.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo" class="logo-image">
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/mycourse" class="nav-link">MyCourses</a></li>
+                <li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="course-main">
+
+        <!-- HERO SECTION -->
+        <div class="course-hero">
+            <div class="hero-content">
+                
+                <!-- Course Header + Instructor -->
+                <div class="course-header">
+                    <h1 class="course-title">{{ course.title }}</h1>
+                    <div class="instructor-info">
+                        <div>
+                            <p class="instructor-name">by {{ course.instructor }}</p>
+                            <div class="rating-section">
+                                <span class="rating-stars" data-rating="{{ course.rating }}">
+                                    {% for i in range(5) %}
+                                        <i class="fas fa-star {% if i < course.rating|int %}filled{% endif %}"></i>
+                                    {% endfor %}
+                                </span>
+                                <span class="rating-score">({{ course.rating }})</span>
+                                <span class="enrolled-count">{{ course.students_enrolled }} students enrolled</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Image + Price/Enroll -->
+                <div class="hero-image-price">
+                    {% if course.image %}
+                        <img src="{{ url_for('static', filename=course.image) }}" alt="{{ course.title }}" class="course-hero-image">
+                    {% else %}
+                        <div class="placeholder-image">No Image Available</div>
+                    {% endif %}
+
+                    <div class="price-section">
+                        <div class="course-meta">
+                            <span class="meta-item"><i class="fas fa-clock"></i> {{ course.duration }}</span>
+                            <span class="meta-item"><i class="fas fa-signal"></i> {{ course.level }}</span>
+                            <span class="meta-item"><i class="fas fa-globe"></i> {{ course.language }}</span>
+                            <span class="meta-item"><i class="fas fa-folder"></i> {{ course.category }}</span>
+                        </div>
+
+                        {% if not subscribedUser %}
+                        <div class="price-display">
+                            {% if course.price == 0 %}
+                                <span class="price free">FREE</span>
+                            {% else %}
+                                <span class="price">₹{{ course.price }}</span>
+                            {% endif %}
+                        </div>
+
+                        <a href="{{ url_for('subscribe', course_id=course['_id']) }}" class="enroll-button">
+                            Enroll Now
+                        </a>
+                        {% else %}
+                        <div class="already-enrolled">
+                            <i class="fa-solid fa-circle-check"></i> You're in! See Curriculum below
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- COURSE CONTENT -->
+        <div class="course-content">
+
+            <!-- Description first -->
+            <section class="section description">
+                <h2>Description</h2>
+                <p>{{ course.description }}</p>
+            </section>
+
+            <!-- Side-by-side Learn & Requirements -->
+            <div class="learn-req-container">
+
+                <section class="section what-you-learn">
+                    <h2>What You'll Learn</h2>
+                    <ul class="learn-list">
+                        {% for item in course.what_you_will_learn %}
+                            <li><i class="fas fa-check"></i> {{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+
+                <section class="section requirements">
+                    <h2>Requirements</h2>
+                    <ul class="req-list">
+                        {% for req in course.requirements %}
+                            <li><i class="fas fa-arrow-right"></i> {{ req }}</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+
+            </div>
+
+            <!-- Curriculum Section -->
+            <section class="section curriculum">
+                <h2>Curriculum</h2>
+
+                {% if not subscribedUser %}
+                    <div class="lock-overlay"><i class="fa-solid fa-lock"></i> Enroll to unlock the curriculum</div>
+                {% endif %}
+
+                <div class="lessons-container {% if not subscribedUser %}locked{% endif %}">
+                    {% for lesson in course.lessons %}
+                        <div class="lesson-item">
+                            <div class="lesson-header">
+                                <i class="fas fa-play"></i>
+                                <span>{{ lesson }}</span>
+                                <button class="toggle-lesson"><i class="fas fa-chevron-down"></i></button>
+                            </div>
+                            <div class="lesson-content">
+                                <p>This lesson covers the fundamentals of {{ lesson.lower() }}.</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js_folder/coursepage.js') }}"></script>
+</body>
+</html>

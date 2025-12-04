@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses | Mini Course App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_folder/mycourse.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/home" class="nav-logo">
+                <img src="{{url_for('static',filename='images/logo.jpg')}}" alt="Logo" class="logo-image">
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/mycourse" class="nav-link">MyCourses</a></li>
+                <li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main">
+        <h1>Keep Learning, Keep Growing</h1>
+
+        {% if message %}
+            <div class="empty-msg">
+                {{ message }} <a href="/home" class="back-link"><i class="fas fa-arrow-left"></i> View Courses</a>
+            </div>
+        {% endif %}
+
+        <div class="course-grid">
+            {% for course in courses %}
+            <div class="course-card">
+                <div class="card-image">
+                    <img src="{{ url_for('static', filename=course['image']) }}" alt="Course Image" class="thumbnail">
+                </div>
+                <div class="card-content">
+                    <h3 class="course-title">{{ course['title'] }}</h3>
+                    <p class="course-description">{{ course['description'] }}</p>
+                    <a href="{{ url_for('course_details', course_id=course['_id']) }}" class="action-btn">
+                        <i class="fas fa-eye"></i> View Course
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js_folder/mycourse.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_folder/homepage.css') }}">
+    <title>Black Friday Edition Courses 2025 | Mini Course App</title>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <img src="{{url_for('static',filename='images/logo.jpg')}}" alt="Logo" class="logo-image">
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/mycourse" class="nav-link">MyCourses</a></li>
+                <li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main">
+        <h2 class="rainbow-text">Black Friday Edition Courses 2025</h2>
+
+        <!-- GLOBAL PROMO GIFT BOX -->
+        <div class="global-promo">
+            <div class="big-gift-box">
+                <i class="fas fa-gift"></i>
+            </div>
+            <div class="global-promo-text">
+                <strong>USE 'BFSALE25' for</strong><br>
+                50% OFF on Paid Courses!
+            </div>
+        </div>
+
+        <!-- COURSE GRID -->
+        <div class="course-grid">
+
+            {% for course in courses %}
+            <div class="course-item">
+                <div class="flip-card" data-original-price="{{ course.price }}">
+                    <div class="flip-card-inner">
+
+                        <!-- FRONT -->
+                        <div class="flip-card-front">
+                            <div class="product-image">
+
+                                <img src="{{ url_for('static', filename=course.image) }}"
+                                     alt="{{ course.title }}"
+                                     draggable="false">
+
+                            </div>
+
+                            <div class="content">
+                                <h3 class="course-title">{{ course.title }}</h3>
+                                
+
+                                <div class="tokenInfo">
+                                    <div class="price price-base">
+                                        {% if course.price == 0 %}
+                                            <ins>FREE</ins>
+                                            <p class="course-price free">$0</p>
+                                        {% else %}
+                                            <ins>PAID</ins>
+                                            <p class="course-price">${{ course.price }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BACK -->
+                        <div class="flip-card-back">
+
+                            <div class="back-description">
+                                <h3>{{ course.title }}</h3>
+                                <p>{{ course.description }}</p>
+                            </div>
+
+                            <div class="discount-info">
+                                {% if course.price == 0 %}
+                                    <p class="original-price">Already Free!</p>
+                                    <p class="discounted-price">$0</p>
+                                    <p class="promo-code">No Code Needed</p>
+                                {% else %}
+                                    <p class="original-price">Original: ${{ course.price }}</p>
+                                    <p class="discounted-price">${{ course.price // 2 }}</p>
+                                    <p class="promo-code">BFSALE25 - 50% OFF!</p>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- BUTTONS OUTSIDE CARD -->
+                <div class="card-buttons">
+                    <a href="{{ url_for('course_details', course_id=course['_id']) }}" class="btn view-btn">
+                        View Course
+                    </a>
+                    
+                    <a href="{{ url_for('subscribe', course_id=course['_id']) }}" class="btn enroll-btn">
+                        Enroll Course
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js_folder/homepage.js') }}"></script>
+
+</body>
+</html>
