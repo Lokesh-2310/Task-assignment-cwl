@@ -12,6 +12,9 @@ from mongodb_creation import (
     get_course_collection,
     get_subscription_collection
 )
+import os
+
+SESSION_KEY = os.environ("SESSION_KEY")
 
 app = Flask(__name__)
 
