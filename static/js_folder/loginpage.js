@@ -32,7 +32,7 @@ async function login() {
     const email = document.getElementById("login_email").value;
     const password = document.getElementById("login_password").value;
 
-    const res = await fetch("http://0.0.0.0:5000/auth/login", {
+    const res = await fetch("http://10.18.132.166:5000/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
@@ -59,7 +59,7 @@ async function signup() {
     const email = document.getElementById("signup_email").value;
     const password = document.getElementById("signup_password").value;
 
-    const res = await fetch("http://0.0.0.0:5000/auth/signup", {
+    const res = await fetch("http://10.18.132.166:5000/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password })
