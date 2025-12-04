@@ -2,7 +2,9 @@
 
 import jwt
 import datetime
-from envfile import SECRET_KEY
+import os
+
+SECRET_KEY = os.environ("SECRET_KEY")
 
 # Create JWT Token
 def create_jwt(user_id, email):
