@@ -1,7 +1,9 @@
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash
-from envfile import MONGO_DB_STRING, DATABASE_NAME
+import os
 
+MONGO_DB_STRING = os.environ["MONGO_DB_STRING"]
+DATABASE_NAME = os.environ["DATABASE_NAME"]
 # MONGODB CONNECTION
 # DATABASE UTILITY FUNCTIONS
 
