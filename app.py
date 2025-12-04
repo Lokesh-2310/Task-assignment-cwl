@@ -13,7 +13,7 @@ from mongodb_creation import (
 )
 import os
 
-SESSION_KEY = os.environ("SESSION_KEY")
+SESSION_KEY = os.environ["SESSION_KEY"]
 
 app = Flask(__name__)
 
