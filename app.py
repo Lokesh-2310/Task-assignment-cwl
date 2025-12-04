@@ -5,7 +5,6 @@ from flask import (
 from auth import auth_bp, token_required
 from bson.objectid import ObjectId
 from datetime import datetime
-from envfile import SESSION_KEY
 
 from mongodb_creation import (
     get_user_collection,
