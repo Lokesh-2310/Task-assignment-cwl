@@ -47,8 +47,6 @@ async function login() {
         // Expires in 1 day
         document.cookie = `jwt_token=${data.token}; path=/; max-age=86400; Secure; SameSite=Lax`;
 
-        console.log("Token Saved in Cookies:", data.token);
-
         window.location.href = "/home"; // redirect after login
     }
 }
