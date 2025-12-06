@@ -46,8 +46,8 @@ function applyPromo() {
 
     // Extract original price (shown in HTML)
     let originalPrice = parseInt(
-        priceDisplay.querySelector(".full-price")?.innerText.replace("₹", "") ||
-        priceDisplay.querySelector(".discounted")?.innerText.replace("₹", "")
+        priceDisplay.querySelector(".full-price")?.innerText.replace("$", "") ||
+        priceDisplay.querySelector(".discounted")?.innerText.replace("$", "")
     );
 
     // Calculate 50% OFF
