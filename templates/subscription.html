@@ -59,11 +59,11 @@
                 {% set original_price = course['price'] %}
                 {% set discounted_price = original_price * 0.5 if promo_applied else original_price %}
                 {% if promo_applied %}
-                    <span class="original">${{ original_price }}</span>
-                    <span class="discounted">${{ discounted_price|round(0) }}</span>
+                    <span class="original">₹{{ original_price }}</span>
+                    <span class="discounted">₹{{ discounted_price|round(0) }}</span>
                     <span class="discount-badge">50% OFF</span>
                 {% else %}
-                    <span class="full-price">${{ original_price }}</span>
+                    <span class="full-price">₹{{ original_price }}</span>
                 {% endif %}
             </div>
 
@@ -82,7 +82,7 @@
                 <div id="promoMessage" class="promo-message"></div>
 
                 <button type="submit" id="subscribeBtn" class="subscribe-btn" disabled>
-                    <i class="fas fa-credit-card"></i> Subscribe for ${{ original_price }}
+                    <i class="fas fa-credit-card"></i> Subscribe for ₹{{ original_price }}
                 </button>
             </form>
         {% endif %}
