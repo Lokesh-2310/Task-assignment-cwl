@@ -65,10 +65,10 @@
                                     <div class="price price-base">
                                         {% if course.price == 0 %}
                                             <ins>FREE</ins>
-                                            <p class="course-price free">$0</p>
+                                            <p class="course-price free">₹0</p>
                                         {% else %}
                                             <ins>PAID</ins>
-                                            <p class="course-price">${{ course.price }}</p>
+                                            <p class="course-price">₹{{ course.price }}</p>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -86,11 +86,11 @@
                             <div class="discount-info">
                                 {% if course.price == 0 %}
                                     <p class="original-price">Already Free!</p>
-                                    <p class="discounted-price">$0</p>
+                                    <p class="discounted-price">₹0</p>
                                     <p class="promo-code">No Code Needed</p>
                                 {% else %}
-                                    <p class="original-price">Original: ${{ course.price }}</p>
-                                    <p class="discounted-price">${{ course.price // 2 }}</p>
+                                    <p class="original-price">Original: ₹{{ course.price }}</p>
+                                    <p class="discounted-price">₹{{ course.price // 2 }}</p>
                                     <p class="promo-code">BFSALE25 - 50% OFF!</p>
                                 {% endif %}
                             </div>
