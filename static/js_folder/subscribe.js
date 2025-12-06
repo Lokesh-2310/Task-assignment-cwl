@@ -46,8 +46,8 @@ function applyPromo() {
 
     // Extract original price (shown in HTML)
     let originalPrice = parseInt(
-        priceDisplay.querySelector(".full-price")?.innerText.replace("$", "") ||
-        priceDisplay.querySelector(".discounted")?.innerText.replace("$", "")
+        priceDisplay.querySelector(".full-price")?.innerText.replace("₹", "") ||
+        priceDisplay.querySelector(".discounted")?.innerText.replace("₹", "")
     );
 
     // Calculate 50% OFF
@@ -55,14 +55,14 @@ function applyPromo() {
 
     // Update price display UI
     priceDisplay.innerHTML = `
-        <span class="original">${originalPrice}</span>
-        <span class="discounted">${discountedPrice}</span>
+        <span class="original">₹${originalPrice}</span>
+        <span class="discounted">₹${discountedPrice}</span>
         <span class="discount-badge">50% OFF</span>
     `;
 
     // Enable Subscribe Button & Update text
     subscribeBtn.disabled = false;
-    subscribeBtn.innerHTML = `<i class="fas fa-credit-card"></i> Subscribe for ${discountedPrice}`;
+    subscribeBtn.innerHTML = `<i class="fas fa-credit-card"></i> Subscribe for ₹${discountedPrice}`;
 
     // Optional: Disable further promo edits
     promoInput.disabled = true;
